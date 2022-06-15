@@ -9,6 +9,22 @@ programa
 	const cadeia NOME_EMBARCACOES[NUM_EMBARCACOES] = {"PORTA-AVIOES", "NAVIOS-TANQUE", "CONTRATORPEDEIROS", "SUBMARINOS"}
 	const inteiro TAMANHO_EMBARCACOES[NUM_EMBARCACOES] = {4, 3, 2, 1}
 	const cadeia NOME_DIRECOES[4] = {"ACIMA", "ABAIXO", "ESQUERDA", "DIREITA"}
+	/*Codificaçãoes:
+	-3 = quadrado descoberto com embarcação
+	-2 = quadrado descoberto sem embarcação
+	-1 - Mar
+	0 - Embarcação de 4 blocos
+	1 - Embarcação de 3 Blocos
+	2 - Embarcação de 3 blocos
+	3 - Embarcações de 2 Blocos
+	4 - Embarcações de 2 Blocos
+	5 - Embarcações de 2 Blocos
+	6 - Embarcação de 1 bloco
+	7 - Embarcação de 1 bloco
+	8 - Embarcação de 1 bloco
+	9 - Embarcação de 1 bloco*/
+
+	inteiro codigos_embarcacoes[10] = {0, 1, 1, 2, 2, 2, 3, 3, 3, 3}
 	
 	funcao inicio()
 	{
@@ -74,7 +90,7 @@ programa
 	}
 
 	funcao verificar_orientacao(inteiro coordenadas[], inteiro tamanho_embarcacao, inteiro direcoes[]){
-		//Verifica a posiﾃｧﾃ｣o acima
+		//Verifica a posição acima
 		se (coordenadas[0] - (tamanho_embarcacao-1) >=0 ){
 			direcoes[0] = 1
 		}
@@ -84,7 +100,7 @@ programa
 			direcoes[1] = 1
 		}
 
-		//Verifica a posiﾃｧﾃ｣o esquerda
+		//Verifica a posição esquerda
 		se (coordenadas[1] - (tamanho_embarcacao-1) >=0 ){
 			direcoes[2] = 1
 		}
@@ -104,11 +120,10 @@ programa
 		inteiro coordenadas[2]
 		inteiro escolha_orientacao
 		inteiro direcoes[4]
-		
-		
+		inteiro contador_codigos_embarcacoes[] = {0, 1, 3, 6}
 	
 		enquanto(i != 0){
-			escreva("ESCOLHA O TIPO DE EMBARCAﾃ�ﾃグ PARA ADICIONAR NA BATALHA:\n")
+			escreva("ESCOLHA O TIPO DE EMBARCAÇÕES PARA ADICIONAR NA BATALHA:\n")
 			escreva("0 - PORTA-AVIÕES\n") 
 			escreva("1 - NAVIOS-TANQUE\n") 
 			escreva("2 - CONTRATORPEDEIROS\n") 
@@ -137,15 +152,52 @@ programa
 				leia(escolha_orientacao)
 
 				se (escolha_orientacao == 0){
+					para(inteiro j=0; j < TAMANHO_EMBARCACOES[escolha_embarcacao]; j++){
+						tabuleiro[coordenadas[0]][coordenadas[1]] = contador_codigos_embarcacoes[escolha_embarcacao]
+						coordenadas[0] -=1
+					}
 					
+					se(escolha_embarcacao != 0) {
+						contador_codigos_embarcacoes[escolha_embarcacao] +=1
+					}
+					
+					exibir_tabuleiro(tabuleiro)
 				}
 				se (escolha_orientacao == 1){
-					 
+					para(inteiro j=0; j < TAMANHO_EMBARCACOES[escolha_embarcacao]; j++){
+						tabuleiro[coordenadas[0]][coordenadas[1]] = contador_codigos_embarcacoes[escolha_embarcacao]
+						coordenadas[0] +=1
+					}
+					
+					se(escolha_embarcacao != 0) {
+						contador_codigos_embarcacoes[escolha_embarcacao] +=1
+					}
+					
+					exibir_tabuleiro(tabuleiro)
 				}
 				se (escolha_orientacao == 2){
-					 
+					para(inteiro j=0; j < TAMANHO_EMBARCACOES[escolha_embarcacao]; j++){
+						tabuleiro[coordenadas[0]][coordenadas[1]] = contador_codigos_embarcacoes[escolha_embarcacao]
+						coordenadas[1] -=1
+					}
+					
+					se(escolha_embarcacao != 0) {
+						contador_codigos_embarcacoes[escolha_embarcacao] +=1
+					}
+					
+					exibir_tabuleiro(tabuleiro)
 				}
 				se (escolha_orientacao == 3){
+					para(inteiro j=0; j < TAMANHO_EMBARCACOES[escolha_embarcacao]; j++){
+						tabuleiro[coordenadas[0]][coordenadas[1]] = contador_codigos_embarcacoes[escolha_embarcacao]
+						coordenadas[1] +=1
+					}
+					
+					se(escolha_embarcacao != 0) {
+						contador_codigos_embarcacoes[escolha_embarcacao] +=1
+					}
+					
+					exibir_tabuleiro(tabuleiro)
 					 
 				}
 	
@@ -181,14 +233,28 @@ programa
 						se(tabuleiro[i-1][j-1] == -1){
 							escreva("-\t")
 						}senao{
-							se(tabuleiro[i-1][j-1] == 3){
+							se(tabuleiro[i-1][j-1] == 0){
+								escreva("pt\t")
+							}se(
+								tabuleiro[i-1][j-1] == 1 ou tabuleiro[i-1][j-1] == 2 
+							){
+								escreva("nt\t")
+							}se(
+								tabuleiro[i-1][j-1] == 3 ou  tabuleiro[i-1][j-1] == 3 ou 
+								tabuleiro[i-1][j-1] == 5
+							){
+								escreva("cp\t")
+							}se(
+								tabuleiro[i-1][j-1] == 6 ou tabuleiro[i-1][j-1] == 7 ou
+								tabuleiro[i-1][j-1] == 8 ou tabuleiro[i-1][j-1] == 9
+							){
 								escreva("s\t")
-							}senao{
-								escreva("pa\t")
 							}
+							
 						}
 					}
 				}
+				
 
 			}
 
@@ -213,8 +279,8 @@ programa
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 3800; 
- * @DOBRAMENTO-CODIGO = [33, 43, 71, 165];
+ * @POSICAO-CURSOR = 5835; 
+ * @DOBRAMENTO-CODIGO = [49, 59, 217];
  * @PONTOS-DE-PARADA = ;
  * @SIMBOLOS-INSPECIONADOS = ;
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
