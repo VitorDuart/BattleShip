@@ -8,6 +8,7 @@ programa
 	const inteiro NUM_EMBARCACOES = 4
 	const cadeia NOME_EMBARCACOES[NUM_EMBARCACOES] = {"PORTA-AVIOES", "NAVIOS-TANQUE", "CONTRATORPEDEIROS", "SUBMARINOS"}
 	const inteiro TAMANHO_EMBARCACOES[NUM_EMBARCACOES] = {4, 3, 2, 1}
+	const cadeia NOME_DIRECOES[4] = {"ACIMA", "ABAIXO", "ESQUERDA", "DIREITA"}
 	
 	funcao inicio()
 	{
@@ -72,6 +73,28 @@ programa
 		
 	}
 
+	funcao verificar_orientacao(inteiro coordenadas[], inteiro tamanho_embarcacao, inteiro direcoes[]){
+		//Verifica a posiﾃｧﾃ｣o acima
+		se (coordenadas[0] - (tamanho_embarcacao-1) >=0 ){
+			direcoes[0] = 1
+		}
+
+		//Verifica a posições abaixo
+		se (coordenadas[0] + (tamanho_embarcacao-1) <= NUM_LINHAS-1 ){
+			direcoes[1] = 1
+		}
+
+		//Verifica a posiﾃｧﾃ｣o esquerda
+		se (coordenadas[1] - (tamanho_embarcacao-1) >=0 ){
+			direcoes[2] = 1
+		}
+
+		//Verifica a posiﾃｧﾃ｣o direita
+		se (coordenadas[1] + (tamanho_embarcacao-1) <= NUM_COLUNAS-1 ){
+			direcoes[3] = 1
+		}
+
+	}
 	
 	funcao adicionar_embarcacoes_manualmente(inteiro tabuleiro[][])
 	{	
@@ -80,10 +103,12 @@ programa
 		inteiro escolha_embarcacao, i = NUM_EMBARCACOES_ALOCADAS
 		inteiro coordenadas[2]
 		inteiro escolha_orientacao
+		inteiro direcoes[4]
+		
 		
 	
 		enquanto(i != 0){
-			escreva("ESCOLHA O TIPO DE EMBARCAÇÃO PARA ADICIONAR NA BATALHA:\n")
+			escreva("ESCOLHA O TIPO DE EMBARCAﾃ�ﾃグ PARA ADICIONAR NA BATALHA:\n")
 			escreva("0 - PORTA-AVIÕES\n") 
 			escreva("1 - NAVIOS-TANQUE\n") 
 			escreva("2 - CONTRATORPEDEIROS\n") 
@@ -99,33 +124,31 @@ programa
 				escreva("DIGITE A POSIÇÃO:\n")
 				leia(posicao_embarcacao)
 				extrair_coordenadas(coordenadas, posicao_embarcacao)
-
 				
 				escreva("ESCOLHA A ORIENTAÇÃO: \n")
-				//Verifica a posição acima
-				se (coordenadas[0] - (TAMANHO_EMBARCACOES[escolha_embarcacao]-1) >=0 ){
-					escreva("0 - ACIMA \n")
-				}
+				
+				verificar_orientacao(coordenadas, TAMANHO_EMBARCACOES[escolha_embarcacao], direcoes)
 
-				//Verifica a posição abaixo
-				se (coordenadas[0] + (TAMANHO_EMBARCACOES[escolha_embarcacao]-1) <= NUM_LINHAS-1 ){
-					escreva("1 - ABAIXO \n")
+				para(inteiro j=0; j < 4; j++){
+					se(direcoes[j] == 1){
+						escreva(j," - ", NOME_DIRECOES[j], "\n")
+					}	
 				}
-
-				//Verifica a posição esquerda
-				se (coordenadas[1] - (TAMANHO_EMBARCACOES[escolha_embarcacao]-1) >=0 ){
-					escreva("2 - ESQUERDA \n")
-				}
-
-				//Verifica a posição direita
-				se (coordenadas[1] + (TAMANHO_EMBARCACOES[escolha_embarcacao]-1) <= NUM_COLUNAS-1 ){
-					escreva("3 - DIREITA \n")
-				}
-
 				leia(escolha_orientacao)
 
-				
-
+				se (escolha_orientacao == 0){
+					
+				}
+				se (escolha_orientacao == 1){
+					 
+				}
+				se (escolha_orientacao == 2){
+					 
+				}
+				se (escolha_orientacao == 3){
+					 
+				}
+	
 				i--
 			}senao{
 				escreva("LIMITE DE ", NOME_EMBARCACOES[escolha_embarcacao], " ULTRAPASSADA!!!\n")
@@ -134,7 +157,7 @@ programa
 		
 		//leia(escolha_de_embarcacao)
 
-		//escreva("ESCOLHA A POSIÇÃO DA EMBARCAÇÃO UTILIZANDO LETRAS MAIÚSCULAS:\n")
+		//escreva("ESCOLHA A POSIﾃ�ﾃグ DA EMBARCAﾃ�ﾃグ UTILIZANDO LETRAS MAIﾃ售CULAS:\n")
 		//leia(posicao_da_embarcacao)
 
 		
@@ -190,8 +213,8 @@ programa
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 2805; 
- * @DOBRAMENTO-CODIGO = [32, 42, 70];
+ * @POSICAO-CURSOR = 3800; 
+ * @DOBRAMENTO-CODIGO = [33, 43, 71, 165];
  * @PONTOS-DE-PARADA = ;
  * @SIMBOLOS-INSPECIONADOS = ;
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
