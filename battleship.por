@@ -41,9 +41,7 @@ programa
 
 		adicionar_embarcacoes_manualmente(tabuleiro_1)
 
-		
-
-
+	
 	}
 		
 
@@ -58,13 +56,19 @@ programa
 	}
 
 	funcao extrair_coordenadas(inteiro coordenadas[], cadeia entrada){
-		cadeia linhas[10] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"}
-		cadeia colunas[10] = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"}
+		cadeia linhas[NUM_LINHAS] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"}
+		cadeia colunas[NUM_COLUNAS] = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"}
 
+		
 		cadeia linha = tx.extrair_subtexto(entrada, 0, 1)
-		cadeia coluna = tx.extrair_subtexto(entrada, 1, 2)
-
-	
+		cadeia coluna
+		
+		se(tx.numero_caracteres(entrada) == 2){
+			 coluna = tx.extrair_subtexto(entrada, 1, 2)
+		}senao{
+			coluna = tx.extrair_subtexto(entrada, 1, 3)
+		}
+		
 		//extrair linha
 		inteiro pos_linha = 0
 		para(inteiro i = 0; i < 10; i++){
@@ -119,7 +123,7 @@ programa
 		inteiro escolha_embarcacao, i = NUM_EMBARCACOES_ALOCADAS
 		inteiro coordenadas[2]
 		inteiro escolha_orientacao
-		inteiro direcoes[4]
+		
 		inteiro contador_codigos_embarcacoes[] = {0, 1, 3, 6}
 	
 		enquanto(i != 0){
@@ -132,8 +136,10 @@ programa
 			leia(escolha_embarcacao)
 
 			se(num_embarcacoes_classe[escolha_embarcacao] != 0){
+				inteiro direcoes[4]
 				// num_embarcacoes_classe[escolha_de_embarcacao] = num_embarcacoes_classe[escolha_de_embarcacao] -1
 				num_embarcacoes_classe[escolha_embarcacao] -= 1
+				
 
 				exibir_tabuleiro(tabuleiro)
 				escreva("DIGITE A POSIÇÃO:\n")
@@ -143,6 +149,7 @@ programa
 				escreva("ESCOLHA A ORIENTAÇÃO: \n")
 				
 				verificar_orientacao(coordenadas, TAMANHO_EMBARCACOES[escolha_embarcacao], direcoes)
+				
 
 				para(inteiro j=0; j < 4; j++){
 					se(direcoes[j] == 1){
@@ -279,8 +286,8 @@ programa
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 5835; 
- * @DOBRAMENTO-CODIGO = [49, 59, 217];
+ * @POSICAO-CURSOR = 4259; 
+ * @DOBRAMENTO-CODIGO = [47, 224];
  * @PONTOS-DE-PARADA = ;
  * @SIMBOLOS-INSPECIONADOS = ;
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
