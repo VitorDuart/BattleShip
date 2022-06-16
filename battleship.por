@@ -44,11 +44,38 @@ programa
 		adicionar_embarcacoes_manualmente(tabuleiro_1)
 		escreva("TABULEIRO JOGADOR 2\n")
 		adicionar_embarcacoes_manualmente(tabuleiro_2)
-		
+
+		// assume o valor 1 ou 2
+		inteiro vez = 1
+		inteiro tabuleiro_vazio1 = tabuleiro_vazio(tabuleiro_1)
+		inteiro tabuleiro_vazio2 = tabuleiro_vazio(tabuleiro_2)
+		enquanto( nao(tabuleiro_vazio1==1 ou tabuleiro_vazio2==1) ){
+			se(vez == 1){
+				exibir_tabuleiro_jogo(tabuleiro_2)
+				
+				atirar()
+					
+				vez = 2
+			}senao{
+				exibir_tabuleiro_jogo(tabuleiro_1)
+				inteiro tiro = 1
+				atirar()
+				vez =1
+			}
+			tabuleiro_vazio1 = tabuleiro_vazio(tabuleiro_1)
+			tabuleiro_vazio2 = tabuleiro_vazio(tabuleiro_2)
+			
+		}
+
+		se(tabuleiro_vazio1 == 1){
+			escreva("JOGADOR 2 GANHOU!!!!")
+		}senao{
+			escreva("JOGADOR 1 GANHOU!!!!")
+		}
 	
 	}
 		
-
+	
 	funcao inicializar_tabuleiro(inteiro tabuleiro[][])
 	{
 		para(inteiro i = 0; i < NUM_LINHAS; i++){
@@ -230,6 +257,18 @@ programa
 		
 	}
 
+	funcao inteiro tabuleiro_vazio(inteiro tabuleiro[][]){
+		retorne 1
+	}
+
+	funcao inteiro atirar(){
+		retorne 1
+	}
+
+	funcao exibir_tabuleiro_jogo(inteiro tabuleiro[][]){
+		
+	}
+	
 	funcao exibir_tabuleiro(inteiro tabuleiro[][]){
 		cadeia letras[10] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"}
 		
@@ -294,8 +333,8 @@ programa
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 1669; 
- * @DOBRAMENTO-CODIGO = [51, 61, 95, 99, 232];
+ * @POSICAO-CURSOR = 7321; 
+ * @DOBRAMENTO-CODIGO = [78, 88, 122, 126, 153, 271];
  * @PONTOS-DE-PARADA = ;
  * @SIMBOLOS-INSPECIONADOS = ;
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
