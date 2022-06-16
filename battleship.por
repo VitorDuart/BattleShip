@@ -38,9 +38,13 @@ programa
 
 
 		inicializar_tabuleiro(tabuleiro_1)
+		inicializar_tabuleiro(tabuleiro_2)
 
+		escreva("TABULEIRO JOGADOR 1\n")
 		adicionar_embarcacoes_manualmente(tabuleiro_1)
-
+		escreva("TABULEIRO JOGADOR 2\n")
+		adicionar_embarcacoes_manualmente(tabuleiro_2)
+		
 	
 	}
 		
@@ -116,6 +120,10 @@ programa
 
 	}
 	
+	/*funcao construir_embarcacao(){
+		
+	}*/
+	
 	funcao adicionar_embarcacoes_manualmente(inteiro tabuleiro[][])
 	{	
 		inteiro num_embarcacoes_classe[] = {1, 2, 3, 4}
@@ -128,10 +136,10 @@ programa
 	
 		enquanto(i != 0){
 			escreva("ESCOLHA O TIPO DE EMBARCAÇÕES PARA ADICIONAR NA BATALHA:\n")
-			escreva("0 - PORTA-AVIÕES\n") 
-			escreva("1 - NAVIOS-TANQUE\n") 
-			escreva("2 - CONTRATORPEDEIROS\n") 
-			escreva("3 - SUBMARINOS\n")	
+			escreva("0 - PORTA-AVIÕES(4 quadrados)\n") 
+			escreva("1 - NAVIOS-TANQUE(3 quadrados)\n") 
+			escreva("2 - CONTRATORPEDEIROS(2 quadrados)\n") 
+			escreva("3 - SUBMARINOS(1 quadrados)\n")	
 
 			leia(escolha_embarcacao)
 
@@ -241,16 +249,16 @@ programa
 							escreva("-\t")
 						}senao{
 							se(tabuleiro[i-1][j-1] == 0){
-								escreva("pt\t")
+								escreva("pa\t")
 							}se(
 								tabuleiro[i-1][j-1] == 1 ou tabuleiro[i-1][j-1] == 2 
 							){
 								escreva("nt\t")
 							}se(
-								tabuleiro[i-1][j-1] == 3 ou  tabuleiro[i-1][j-1] == 3 ou 
+								tabuleiro[i-1][j-1] == 3 ou  tabuleiro[i-1][j-1] == 4 ou 
 								tabuleiro[i-1][j-1] == 5
 							){
-								escreva("cp\t")
+								escreva("ct\t")
 							}se(
 								tabuleiro[i-1][j-1] == 6 ou tabuleiro[i-1][j-1] == 7 ou
 								tabuleiro[i-1][j-1] == 8 ou tabuleiro[i-1][j-1] == 9
@@ -286,8 +294,8 @@ programa
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 4259; 
- * @DOBRAMENTO-CODIGO = [47, 224];
+ * @POSICAO-CURSOR = 1669; 
+ * @DOBRAMENTO-CODIGO = [51, 61, 95, 99, 232];
  * @PONTOS-DE-PARADA = ;
  * @SIMBOLOS-INSPECIONADOS = ;
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
