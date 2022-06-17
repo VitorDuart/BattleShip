@@ -33,9 +33,7 @@ programa
 		inteiro tabuleiro_2[NUM_LINHAS][NUM_COLUNAS]
 		inteiro integridade_embarcacoes_1[NUM_EMBARCACOES_ALOCADAS] = {4, 3, 3, 2, 2, 2, 1, 1, 1, 1}
 		inteiro integridade_embarcacoes_2[NUM_EMBARCACOES_ALOCADAS] = {4, 3, 3, 2, 2, 2, 1, 1, 1, 1}
-		inteiro classes_embarcacoes_alocadas_1[NUM_EMBARCACOES_ALOCADAS] = {0, 1, 1, 2, 2, 2, 3, 3, 3, 3}
-		inteiro classes_embarcacoes_alocadas_2[NUM_EMBARCACOES_ALOCADAS] = {0, 1, 1, 2, 2, 2, 3, 3, 3, 3}
-
+		inteiro classes_embarcacoes_alocada[NUM_EMBARCACOES_ALOCADAS] = {0, 1, 1, 2, 2, 2, 3, 3, 3, 3}
 
 		inicializar_tabuleiro(tabuleiro_1)
 		inicializar_tabuleiro(tabuleiro_2)
@@ -46,10 +44,12 @@ programa
 		adicionar_embarcacoes_manualmente(tabuleiro_2)
 
 		// assume o valor 1 ou 2
+		// valor 1 vez do jogador 1
+		// valor 2 vez do jogador 2
 		inteiro vez = 1
-		inteiro tabuleiro_vazio1 = tabuleiro_vazio(tabuleiro_1)
-		inteiro tabuleiro_vazio2 = tabuleiro_vazio(tabuleiro_2)
-		enquanto( nao(tabuleiro_vazio1==1 ou tabuleiro_vazio2==1) ){
+		inteiro tabuleiro_vazio1 = tabuleiro_vazio(integridade_embarcacoes_1)
+		inteiro tabuleiro_vazio2 = tabuleiro_vazio(integridade_embarcacoes_2)
+		enquanto(nao(tabuleiro_vazio1==1 ou tabuleiro_vazio2==1)){
 			se(vez == 1){
 				exibir_tabuleiro_jogo(tabuleiro_2)
 				
@@ -62,8 +62,8 @@ programa
 				atirar()
 				vez =1
 			}
-			tabuleiro_vazio1 = tabuleiro_vazio(tabuleiro_1)
-			tabuleiro_vazio2 = tabuleiro_vazio(tabuleiro_2)
+			tabuleiro_vazio1 = tabuleiro_vazio(integridade_embarcacoes_1)
+			tabuleiro_vazio2 = tabuleiro_vazio(integridade_embarcacoes_2)
 			
 		}
 
@@ -92,13 +92,7 @@ programa
 
 		
 		cadeia linha = tx.extrair_subtexto(entrada, 0, 1)
-		cadeia coluna
-		
-		se(tx.numero_caracteres(entrada) == 2){
-			 coluna = tx.extrair_subtexto(entrada, 1, 2)
-		}senao{
-			coluna = tx.extrair_subtexto(entrada, 1, 3)
-		}
+		cadeia coluna = tx.extrair_subtexto(entrada, 1, tx.numero_caracteres(entrada))
 		
 		//extrair linha
 		inteiro pos_linha = 0
@@ -158,7 +152,6 @@ programa
 		inteiro escolha_embarcacao, i = NUM_EMBARCACOES_ALOCADAS
 		inteiro coordenadas[2]
 		inteiro escolha_orientacao
-		
 		inteiro contador_codigos_embarcacoes[] = {0, 1, 3, 6}
 	
 		enquanto(i != 0){
@@ -257,8 +250,16 @@ programa
 		
 	}
 
-	funcao inteiro tabuleiro_vazio(inteiro tabuleiro[][]){
-		retorne 1
+	funcao inteiro tabuleiro_vazio(inteiro integridade_embarcacoes[]){
+		inteiro soma = 0
+		para(inteiro i=0; i< NUM_EMBARCACOES_ALOCADAS; i++){
+			soma += integridade_embarcacoes[i]
+		}
+
+		se(soma == 0)
+			retorne 1
+		
+		retorne 0
 	}
 
 	funcao inteiro atirar(){
@@ -333,8 +334,8 @@ programa
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 7321; 
- * @DOBRAMENTO-CODIGO = [78, 88, 122, 126, 153, 271];
+ * @POSICAO-CURSOR = 2164; 
+ * @DOBRAMENTO-CODIGO = [78, 88, 116, 120, 143, 147, 264, 268, 272];
  * @PONTOS-DE-PARADA = ;
  * @SIMBOLOS-INSPECIONADOS = ;
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
