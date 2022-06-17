@@ -9,9 +9,10 @@ programa
 	const cadeia NOME_EMBARCACOES[NUM_EMBARCACOES] = {"PORTA-AVIOES", "NAVIOS-TANQUE", "CONTRATORPEDEIROS", "SUBMARINOS"}
 	const inteiro TAMANHO_EMBARCACOES[NUM_EMBARCACOES] = {4, 3, 2, 1}
 	const cadeia NOME_DIRECOES[4] = {"ACIMA", "ABAIXO", "ESQUERDA", "DIREITA"}
+	const inteiro CODIGO_EMBARCACOES[10] = {0, 1, 1, 2, 2, 2, 3, 3, 3, 3}
 	/*Codificaçãoes:
-	-3 = quadrado descoberto com embarcação
-	-2 = quadrado descoberto sem embarcação
+	-3 = quadrado descoberto com embarcação - Acertou
+	-2 = quadrado descoberto sem embarcação - Errou
 	-1 - Mar
 	0 - Embarcação de 4 blocos
 	1 - Embarcação de 3 Blocos
@@ -24,7 +25,7 @@ programa
 	8 - Embarcação de 1 bloco
 	9 - Embarcação de 1 bloco*/
 
-	inteiro codigos_embarcacoes[10] = {0, 1, 1, 2, 2, 2, 3, 3, 3, 3}
+	
 	
 	funcao inicio()
 	{
@@ -33,18 +34,69 @@ programa
 		inteiro tabuleiro_2[NUM_LINHAS][NUM_COLUNAS]
 		inteiro integridade_embarcacoes_1[NUM_EMBARCACOES_ALOCADAS] = {4, 3, 3, 2, 2, 2, 1, 1, 1, 1}
 		inteiro integridade_embarcacoes_2[NUM_EMBARCACOES_ALOCADAS] = {4, 3, 3, 2, 2, 2, 1, 1, 1, 1}
-		inteiro classes_embarcacoes_alocadas_1[NUM_EMBARCACOES_ALOCADAS] = {0, 1, 1, 2, 2, 2, 3, 3, 3, 3}
-		inteiro classes_embarcacoes_alocadas_2[NUM_EMBARCACOES_ALOCADAS] = {0, 1, 1, 2, 2, 2, 3, 3, 3, 3}
-
+		
 
 		inicializar_tabuleiro(tabuleiro_1)
+		inicializar_tabuleiro(tabuleiro_2)
 
+		escreva("TABULEIRO JOGADOR 1\n")
 		adicionar_embarcacoes_manualmente(tabuleiro_1)
+		escreva("TABULEIRO JOGADOR 2\n")
+		adicionar_embarcacoes_manualmente(tabuleiro_2)
 
+		// assume o valor 1 ou 2
+		// valor 1 vez do jogador 1
+		// valor 2 vez do jogador 2
+		inteiro vez = 1
+		inteiro tabuleiro_vazio1 = tabuleiro_vazio(integridade_embarcacoes_1)
+		inteiro tabuleiro_vazio2 = tabuleiro_vazio(integridade_embarcacoes_2)
+		enquanto(nao(tabuleiro_vazio1== 1 ou tabuleiro_vazio2== 1)){
+			se(vez == 1){
+				exibir_tabuleiro_jogo(tabuleiro_2)
+				
+				cadeia posicao
+				
+				inteiro coordenadas[2]
+				
+				inteiro resposta
+				
+				faca{
+					escreva("INSIRA A POSICAO DO TIRO\n")
+					
+					leia(posicao)
+					extrair_coordenadas(coordenadas, posicao)
+					
+					resposta = atirar(tabuleiro_2, coordenadas, integridade_embarcacoes_2)
+					exibir_tabuleiro_jogo(tabuleiro_2)
+
+					se(integridade_embarcacoes_2[resposta] == 0){
+						inteiro codigo = CODIGO_EMBARCACOES[resposta]
+						escreva("O", NOME_EMBARCACOES[codigo], "FOI DERRUBADA")
+					}
+					
+				}enquanto(resposta > -1)
+					
+				vez = 2
+			}senao{
+				exibir_tabuleiro_jogo(tabuleiro_1)
+				
+				//atirar()
+				vez =1
+			}
+			tabuleiro_vazio1 = tabuleiro_vazio(integridade_embarcacoes_1)
+			tabuleiro_vazio2 = tabuleiro_vazio(integridade_embarcacoes_2)
+			
+		}
+
+		se(tabuleiro_vazio1 == 1){
+			escreva("JOGADOR 2 GANHOU!!!!")
+		}senao{
+			escreva("JOGADOR 1 GANHOU!!!!")
+		}
 	
 	}
 		
-
+	
 	funcao inicializar_tabuleiro(inteiro tabuleiro[][])
 	{
 		para(inteiro i = 0; i < NUM_LINHAS; i++){
@@ -61,13 +113,7 @@ programa
 
 		
 		cadeia linha = tx.extrair_subtexto(entrada, 0, 1)
-		cadeia coluna
-		
-		se(tx.numero_caracteres(entrada) == 2){
-			 coluna = tx.extrair_subtexto(entrada, 1, 2)
-		}senao{
-			coluna = tx.extrair_subtexto(entrada, 1, 3)
-		}
+		cadeia coluna = tx.extrair_subtexto(entrada, 1, tx.numero_caracteres(entrada))
 		
 		//extrair linha
 		inteiro pos_linha = 0
@@ -116,6 +162,10 @@ programa
 
 	}
 	
+	/*funcao construir_embarcacao(){
+		
+	}*/
+	
 	funcao adicionar_embarcacoes_manualmente(inteiro tabuleiro[][])
 	{	
 		inteiro num_embarcacoes_classe[] = {1, 2, 3, 4}
@@ -123,15 +173,14 @@ programa
 		inteiro escolha_embarcacao, i = NUM_EMBARCACOES_ALOCADAS
 		inteiro coordenadas[2]
 		inteiro escolha_orientacao
-		
 		inteiro contador_codigos_embarcacoes[] = {0, 1, 3, 6}
 	
 		enquanto(i != 0){
 			escreva("ESCOLHA O TIPO DE EMBARCAÇÕES PARA ADICIONAR NA BATALHA:\n")
-			escreva("0 - PORTA-AVIÕES\n") 
-			escreva("1 - NAVIOS-TANQUE\n") 
-			escreva("2 - CONTRATORPEDEIROS\n") 
-			escreva("3 - SUBMARINOS\n")	
+			escreva("0 - PORTA-AVIÕES(4 quadrados)\n") 
+			escreva("1 - NAVIOS-TANQUE(3 quadrados)\n") 
+			escreva("2 - CONTRATORPEDEIROS(2 quadrados)\n") 
+			escreva("3 - SUBMARINOS(1 quadrado)\n")	
 
 			leia(escolha_embarcacao)
 
@@ -222,6 +271,38 @@ programa
 		
 	}
 
+	funcao inteiro tabuleiro_vazio(inteiro integridade_embarcacoes[]){
+		inteiro soma = 0
+		para(inteiro i=0; i< NUM_EMBARCACOES_ALOCADAS; i++){
+			soma += integridade_embarcacoes[i]
+		}
+
+		se(soma == 0)
+			retorne 1
+		
+		retorne 0
+	}
+
+	funcao inteiro atirar(inteiro tabuleiro[][], inteiro coordenadas[], inteiro integridade_embarcacoes[]){
+		inteiro codigo_coordenada = tabuleiro[coordenadas[0]][coordenadas[1]]
+
+		se(codigo_coordenada > -1){
+			tabuleiro[coordenadas[0]][coordenadas[1]] = -3
+			integridade_embarcacoes[codigo_coordenada] -= 1
+		}senao{
+			se(codigo_coordenada == -1){
+				tabuleiro[coordenadas[0]][coordenadas[1]] = -2
+			}
+		}
+		
+		
+		retorne codigo_coordenada
+	}
+
+	funcao exibir_tabuleiro_jogo(inteiro tabuleiro[][]){
+		
+	}
+	
 	funcao exibir_tabuleiro(inteiro tabuleiro[][]){
 		cadeia letras[10] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"}
 		
@@ -241,16 +322,16 @@ programa
 							escreva("-\t")
 						}senao{
 							se(tabuleiro[i-1][j-1] == 0){
-								escreva("pt\t")
+								escreva("pa\t")
 							}se(
 								tabuleiro[i-1][j-1] == 1 ou tabuleiro[i-1][j-1] == 2 
 							){
 								escreva("nt\t")
 							}se(
-								tabuleiro[i-1][j-1] == 3 ou  tabuleiro[i-1][j-1] == 3 ou 
+								tabuleiro[i-1][j-1] == 3 ou  tabuleiro[i-1][j-1] == 4 ou 
 								tabuleiro[i-1][j-1] == 5
 							){
-								escreva("cp\t")
+								escreva("ct\t")
 							}se(
 								tabuleiro[i-1][j-1] == 6 ou tabuleiro[i-1][j-1] == 7 ou
 								tabuleiro[i-1][j-1] == 8 ou tabuleiro[i-1][j-1] == 9
@@ -286,8 +367,8 @@ programa
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 3134; 
- * @DOBRAMENTO-CODIGO = [47, 224];
+ * @POSICAO-CURSOR = 2364; 
+ * @DOBRAMENTO-CODIGO = [99, 109, 137, 141, 168, 301, 305];
  * @PONTOS-DE-PARADA = ;
  * @SIMBOLOS-INSPECIONADOS = ;
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
