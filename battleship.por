@@ -191,8 +191,10 @@ programa
 			//Verifica a posiﾃｧﾃ｣o acima
 			se (coordenadas[0] - (tamanho_embarcacao-1) >=0 ){
 				disponivel=0
-				para(inteiro i=0; i<tamanho_embarcacao-1; i++){
-					se(tabuleiro[coordenadas[0]][coordenadas[1]] > -1){
+				inteiro x = coordenadas[0]
+				inteiro y = coordenadas[1]
+				para(inteiro i=0; i<tamanho_embarcacao; i++){
+					se(tabuleiro[coordenadas[0]][coordenadas[1]] == -1){
 						disponivel = 1
 					}
 					coordenadas[0]-=1
@@ -546,8 +548,8 @@ programa
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 8458; 
- * @DOBRAMENTO-CODIGO = [123, 133, 161, 187, 420, 432, 448, 484, 536];
+ * @POSICAO-CURSOR = 5328; 
+ * @DOBRAMENTO-CODIGO = [123, 133, 161, 254, 422, 434, 450, 486, 538];
  * @PONTOS-DE-PARADA = ;
  * @SIMBOLOS-INSPECIONADOS = ;
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
