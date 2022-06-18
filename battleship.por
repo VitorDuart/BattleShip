@@ -1,16 +1,4 @@
-programa
-{
-	inclua biblioteca Texto --> tx
-	
-	const inteiro NUM_LINHAS = 10
-	const inteiro NUM_COLUNAS = 10
-	const inteiro NUM_EMBARCACOES_ALOCADAS = 10
-	const inteiro NUM_EMBARCACOES = 4
-	const cadeia NOME_EMBARCACOES[NUM_EMBARCACOES] = {"PORTA-AVIOES", "NAVIOS-TANQUE", "CONTRATORPEDEIROS", "SUBMARINOS"}
-	const inteiro TAMANHO_EMBARCACOES[NUM_EMBARCACOES] = {4, 3, 2, 1}
-	const cadeia NOME_DIRECOES[4] = {"ACIMA", "ABAIXO", "ESQUERDA", "DIREITA"}
-	const inteiro CODIGO_EMBARCACOES[10] = {0, 1, 1, 2, 2, 2, 3, 3, 3, 3}
-	/*Codificaçãoes:
+/*Codificaçãoes:
 	-3 = quadrado descoberto com embarcação - Acertou
 	-2 = quadrado descoberto sem embarcação - Errou
 	-1 - Mar
@@ -24,8 +12,18 @@ programa
 	7 - Embarcação de 1 bloco
 	8 - Embarcação de 1 bloco
 	9 - Embarcação de 1 bloco*/
-
+programa
+{
+	inclua biblioteca Texto --> tx
 	
+	const inteiro NUM_LINHAS = 10
+	const inteiro NUM_COLUNAS = 10
+	const inteiro NUM_EMBARCACOES_ALOCADAS = 10
+	const inteiro NUM_EMBARCACOES = 4
+	const cadeia NOME_EMBARCACOES[NUM_EMBARCACOES] = {"PORTA-AVIOES", "NAVIOS-TANQUE", "CONTRATORPEDEIROS", "SUBMARINOS"}
+	const inteiro TAMANHO_EMBARCACOES[NUM_EMBARCACOES] = {4, 3, 2, 1}
+	const cadeia NOME_DIRECOES[4] = {"ACIMA", "ABAIXO", "ESQUERDA", "DIREITA"}
+	const inteiro CODIGO_EMBARCACOES[10] = {0, 1, 1, 2, 2, 2, 3, 3, 3, 3}
 	
 	funcao inicio()
 	{
@@ -35,13 +33,15 @@ programa
 		inteiro integridade_embarcacoes_1[NUM_EMBARCACOES_ALOCADAS] = {4, 3, 3, 2, 2, 2, 1, 1, 1, 1}
 		inteiro integridade_embarcacoes_2[NUM_EMBARCACOES_ALOCADAS] = {4, 3, 3, 2, 2, 2, 1, 1, 1, 1}
 		
-
+		
 		inicializar_tabuleiro(tabuleiro_1)
 		inicializar_tabuleiro(tabuleiro_2)
 
 		escreva("TABULEIRO JOGADOR 1\n")
+		exibir_tabuleiro(tabuleiro_1)
 		adicionar_embarcacoes_manualmente(tabuleiro_1)
 		escreva("TABULEIRO JOGADOR 2\n")
+		exibir_tabuleiro(tabuleiro_2)
 		adicionar_embarcacoes_manualmente(tabuleiro_2)
 
 		// assume o valor 1 ou 2
@@ -79,8 +79,29 @@ programa
 				vez = 2
 			}senao{
 				exibir_tabuleiro_jogo(tabuleiro_1)
+
+				cadeia posicao
 				
-				//atirar()
+				inteiro coordenadas[2]
+				
+				inteiro resposta
+				
+				faca{
+					escreva("INSIRA A POSICAO DO TIRO\n")
+					
+					leia(posicao)
+					extrair_coordenadas(coordenadas, posicao)
+					
+					resposta = atirar(tabuleiro_1, coordenadas, integridade_embarcacoes_1)
+					exibir_tabuleiro_jogo(tabuleiro_1)
+
+					se(integridade_embarcacoes_1[resposta] == 0){
+						inteiro codigo = CODIGO_EMBARCACOES[resposta]
+						escreva("O", NOME_EMBARCACOES[codigo], "FOI DERRUBADA")
+					}
+					
+				}enquanto(resposta > -1)
+				
 				vez =1
 			}
 			tabuleiro_vazio1 = tabuleiro_vazio(integridade_embarcacoes_1)
@@ -162,10 +183,6 @@ programa
 
 	}
 	
-	/*funcao construir_embarcacao(){
-		
-	}*/
-	
 	funcao adicionar_embarcacoes_manualmente(inteiro tabuleiro[][])
 	{	
 		inteiro num_embarcacoes_classe[] = {1, 2, 3, 4}
@@ -176,6 +193,7 @@ programa
 		inteiro contador_codigos_embarcacoes[] = {0, 1, 3, 6}
 	
 		enquanto(i != 0){
+			
 			escreva("ESCOLHA O TIPO DE EMBARCAÇÕES PARA ADICIONAR NA BATALHA:\n")
 			escreva("0 - PORTA-AVIÕES(4 quadrados)\n") 
 			escreva("1 - NAVIOS-TANQUE(3 quadrados)\n") 
@@ -190,7 +208,7 @@ programa
 				num_embarcacoes_classe[escolha_embarcacao] -= 1
 				
 
-				exibir_tabuleiro(tabuleiro)
+				
 				escreva("DIGITE A POSIÇÃO:\n")
 				leia(posicao_embarcacao)
 				extrair_coordenadas(coordenadas, posicao_embarcacao)
@@ -300,7 +318,39 @@ programa
 	}
 
 	funcao exibir_tabuleiro_jogo(inteiro tabuleiro[][]){
+		cadeia letras[10] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"}
 		
+		para(inteiro i = 0; i < NUM_LINHAS; i++){
+			para(inteiro j = 0; j < NUM_COLUNAS; j++){
+				se(i == 0){
+					se(j == 0){
+						escreva(" \t")
+					}senao{
+						escreva(j + "\t")
+					}
+				}senao{
+					se(j == 0){
+						escreva(letras[i-1] + "\t")
+					}senao{
+						se(tabuleiro[i-1][j-1] >= -1 ){
+							escreva("-\t")
+						}senao{
+							se(tabuleiro[i-1][j-1] > -2 ){
+								escreva("X\t")
+							}se(tabuleiro[i-1][j-1] == -3){
+								escreva("O\t")
+							}
+							
+						}
+					}
+				}
+			}
+			se(i == 0){
+				escreva("\n")
+			}
+
+			escreva("\n")
+		}
 	}
 	
 	funcao exibir_tabuleiro(inteiro tabuleiro[][]){
@@ -367,8 +417,8 @@ programa
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 2364; 
- * @DOBRAMENTO-CODIGO = [99, 109, 137, 141, 168, 301, 305];
+ * @POSICAO-CURSOR = 9400; 
+ * @DOBRAMENTO-CODIGO = [120, 130, 158, 162, 291, 303, 407];
  * @PONTOS-DE-PARADA = ;
  * @SIMBOLOS-INSPECIONADOS = ;
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
