@@ -38,13 +38,9 @@ programa
 		inicializar_tabuleiro(tabuleiro_1)
 		inicializar_tabuleiro(tabuleiro_2)
 
-		//escreva("TABULEIRO JOGADOR 1\n")
-		//exibir_tabuleiro(tabuleiro_1)
-		//adicionar_embarcacoes_manualmente(tabuleiro_1)
+		escreva("TABULEIRO JOGADOR 1\n")
 		adicionar_embarcacoes_aleatorio(tabuleiro_1)
-		//escreva("TABULEIRO JOGADOR 2\n")
-		//exibir_tabuleiro(tabuleiro_2)
-		//adicionar_embarcacoes_manualmente(tabuleiro_2)
+		escreva("TABULEIRO JOGADOR 2\n")
 		adicionar_embarcacoes_aleatorio(tabuleiro_2)
 
 		
@@ -52,12 +48,13 @@ programa
 		// assume o valor 1 ou 2
 		// valor 1 vez do jogador 1
 		// valor 2 vez do jogador 2
-		
+		escreva("INICIANDO PARTIDA\n")
 		inteiro vez = 1
 		inteiro tabuleiro_vazio1 = tabuleiro_vazio(integridade_embarcacoes_1)
 		inteiro tabuleiro_vazio2 = tabuleiro_vazio(integridade_embarcacoes_2)
 		enquanto(nao(tabuleiro_vazio1== 1 ou tabuleiro_vazio2== 1)){
 			se(vez == 1){
+				escreva("VEZ DO JOGADOR 1 \n")
 				exibir_tabuleiro_jogo(tabuleiro_2)
 				
 				cadeia posicao
@@ -73,18 +70,20 @@ programa
 					extrair_coordenadas(coordenadas, posicao)
 					
 					resposta = atirar(tabuleiro_2, coordenadas, integridade_embarcacoes_2)
-					escreva("VALOR DA VARIÁVEL RESPOSTA: ", resposta, "\n")
 					exibir_tabuleiro_jogo(tabuleiro_2)
-
-					se(integridade_embarcacoes_2[resposta] == 0){
-						inteiro codigo = CODIGO_EMBARCACOES[resposta]
-						escreva("O", NOME_EMBARCACOES[codigo], "FOI DERRUBADA")
+						
+					se(resposta > -1){
+						se(integridade_embarcacoes_2[resposta] == 0){
+							inteiro codigo = CODIGO_EMBARCACOES[resposta]
+							escreva("O ", NOME_EMBARCACOES[codigo], " FOI DERRUBADA", "\n")
+						}
 					}
 					
 				}enquanto(resposta > -1)
 					
 				vez = 2
 			}senao{
+				escreva("VEZ DO JOGADOR 2 \n")
 				exibir_tabuleiro_jogo(tabuleiro_1)
 
 				cadeia posicao
@@ -101,10 +100,11 @@ programa
 					
 					resposta = atirar(tabuleiro_1, coordenadas, integridade_embarcacoes_1)
 					exibir_tabuleiro_jogo(tabuleiro_1)
-
-					se(integridade_embarcacoes_1[resposta] == 0){
-						inteiro codigo = CODIGO_EMBARCACOES[resposta]
-						escreva("O", NOME_EMBARCACOES[codigo], "FOI DERRUBADA")
+					se(resposta > -1){
+						se(integridade_embarcacoes_1[resposta] == 0){
+							inteiro codigo = CODIGO_EMBARCACOES[resposta]
+							escreva("O ", NOME_EMBARCACOES[codigo], " FOI DERRUBADA", "\n")
+						}
 					}
 					
 				}enquanto(resposta > -1)
@@ -486,7 +486,7 @@ programa
 						se(tabuleiro[i-1][j-1] >= -1 ){
 							escreva("-\t")
 						}senao{
-							se(tabuleiro[i-1][j-1] > -2 ){
+							se(tabuleiro[i-1][j-1] == -2 ){
 								escreva("X\t")
 							}se(tabuleiro[i-1][j-1] == -3){
 								escreva("O\t")
@@ -502,6 +502,7 @@ programa
 
 			escreva("\n")
 		}
+		escreva("\n")
 	}
 	
 	funcao exibir_tabuleiro(inteiro tabuleiro[][]){
@@ -553,6 +554,7 @@ programa
 
 			escreva("\n")
 		}
+		escreva("\n")
 	}
 
 
@@ -568,8 +570,8 @@ programa
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 2444; 
- * @DOBRAMENTO-CODIGO = [137, 165];
+ * @POSICAO-CURSOR = 2629; 
+ * @DOBRAMENTO-CODIGO = [137, 165, 191, 265, 342, 442];
  * @PONTOS-DE-PARADA = ;
  * @SIMBOLOS-INSPECIONADOS = ;
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
