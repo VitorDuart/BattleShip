@@ -193,75 +193,71 @@ programa
 		inteiro tabuleiro[][], inteiro coordenadas[],  
 		inteiro tamanho_embarcacao, inteiro direcoes[]	
 	){
-		se(tabuleiro[coordenadas[0]][coordenadas[1]] == -1){
-			inteiro disponivel
-			inteiro x,y
-			//Verifica a posiﾃｧﾃ｣o acima
-			se (coordenadas[0] - (tamanho_embarcacao-1) >=0 ){
-				disponivel=0
-				x = coordenadas[0]
-				y = coordenadas[1]
-				para(inteiro i=0; i<tamanho_embarcacao; i++){
-					se(tabuleiro[x][y] == -1){
-						disponivel = 1
-					}
-					x-=1
-				}
-				se(disponivel == 1){
-					direcoes[0] = 1
-				}
+		inteiro disponivel
+		inteiro x,y,i
+		
+		//Verifica a posição acima
+		se (coordenadas[0] - (tamanho_embarcacao-1) >=0 ){
+			x = coordenadas[0]
+			y = coordenadas[1]
+
+			i = 0
+			enquanto(i < tamanho_embarcacao e tabuleiro[x][y] == -1){
+				i += 1
+				x -= 1
+				
 			}
-	
-			//Verifica a posiﾃｧﾃｵes abaixo
-			se (coordenadas[0] + (tamanho_embarcacao-1) <= NUM_LINHAS-1 ){
-				disponivel=0
-				x = coordenadas[0]
-				y = coordenadas[1]
-				para(inteiro i=0; i<tamanho_embarcacao; i++){
-					se(tabuleiro[x][y] == -1){
-						disponivel = 1
-					}
-					x+=1
-				}
-				se(disponivel == 1){
-					direcoes[1] = 1
-				}
+
+			se(i > tamanho_embarcacao){
+				direcoes[0] = 1
 			}
-	
-			//Verifica a posiﾃｧﾃ｣o esquerda
-			se (coordenadas[1] - (tamanho_embarcacao-1) >=0 ){
-				disponivel=0
-				x = coordenadas[0]
-				y = coordenadas[1]
-				para(inteiro i=0; i<tamanho_embarcacao; i++){
-					se(tabuleiro[x][y] == -1){
-						disponivel = 1
-					}
-					y-=1
-				}
-				se(disponivel == 1){
-					direcoes[2] = 1
-				}
+		}
+
+		//Verifica a posições abaixo
+		se (coordenadas[0] - (tamanho_embarcacao-1) >=0 ){
+			x = coordenadas[0]
+			y = coordenadas[1]
+
+			i = 0
+			enquanto(i < tamanho_embarcacao e tabuleiro[x][y] == -1){
+				i += 1
+				x += 1
 			}
-	
-			//Verifica a posi�ｾ�ｽｧ�ｾ�ｽ｣o direita
-			se (coordenadas[1] + (tamanho_embarcacao-1) <= NUM_COLUNAS-1 ){
-				disponivel=0
-				x = coordenadas[0]
-				y = coordenadas[1]
-				para(inteiro i=0; i<tamanho_embarcacao; i++){
-					se(tabuleiro[x][y] == -1){
-						disponivel = 1
-					}
-					y+=1
-				}
-				se(disponivel == 1){
-					direcoes[3] = 1
-				}
+
+			se(i > tamanho_embarcacao){
+				direcoes[1] = 1
 			}
-		}senao{
-			para(inteiro i=0; i<4; i++){
-				direcoes[i] = 0
+		}
+
+		//Verifica a posição esquerda
+		se (coordenadas[0] - (tamanho_embarcacao-1) >=0 ){
+			x = coordenadas[0]
+			y = coordenadas[1]
+
+			i = 0
+			enquanto(i < tamanho_embarcacao e tabuleiro[x][y] == -1){
+				i += 1
+				y -= 1
+			}
+
+			se(i > tamanho_embarcacao){
+				direcoes[2] = 1
+			}
+		}
+
+		//Verifica a posição direita
+		se (coordenadas[0] - (tamanho_embarcacao-1) >=0 ){
+			x = coordenadas[0]
+			y = coordenadas[1]
+
+			i = 0
+			enquanto(i <= tamanho_embarcacao-1 e tabuleiro[x][y] == -1){
+				i += 1
+				y += 1
+			}
+
+			se(i > tamanho_embarcacao){
+				direcoes[3] = 1
 			}
 		}
 	}
@@ -474,7 +470,6 @@ programa
 	funcao exibir_tabuleiro_jogo(inteiro tabuleiro[][]){
 		cadeia letras[10] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"}
 
-		 
 		para(inteiro i = 0; i < NUM_LINHAS + 1; i++){
 			para(inteiro j = 0; j < NUM_COLUNAS + 1; j++){
 				se(i == 0){
@@ -574,7 +569,8 @@ programa
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 6483; 
+ * @POSICAO-CURSOR = 5423; 
+ * @DOBRAMENTO-CODIGO = [460];
  * @PONTOS-DE-PARADA = ;
  * @SIMBOLOS-INSPECIONADOS = ;
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
