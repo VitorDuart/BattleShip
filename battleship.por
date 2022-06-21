@@ -38,18 +38,21 @@ programa
 		inicializar_tabuleiro(tabuleiro_1)
 		inicializar_tabuleiro(tabuleiro_2)
 
-		escreva("TABULEIRO JOGADOR 1\n")
-		exibir_tabuleiro(tabuleiro_1)
+		//escreva("TABULEIRO JOGADOR 1\n")
+		//exibir_tabuleiro(tabuleiro_1)
 		//adicionar_embarcacoes_manualmente(tabuleiro_1)
 		adicionar_embarcacoes_aleatorio(tabuleiro_1)
-		escreva("TABULEIRO JOGADOR 2\n")
-		exibir_tabuleiro(tabuleiro_2)
+		//escreva("TABULEIRO JOGADOR 2\n")
+		//exibir_tabuleiro(tabuleiro_2)
 		//adicionar_embarcacoes_manualmente(tabuleiro_2)
 		adicionar_embarcacoes_aleatorio(tabuleiro_2)
+
+		
 
 		// assume o valor 1 ou 2
 		// valor 1 vez do jogador 1
 		// valor 2 vez do jogador 2
+		
 		inteiro vez = 1
 		inteiro tabuleiro_vazio1 = tabuleiro_vazio(integridade_embarcacoes_1)
 		inteiro tabuleiro_vazio2 = tabuleiro_vazio(integridade_embarcacoes_2)
@@ -70,12 +73,15 @@ programa
 					extrair_coordenadas(coordenadas, posicao)
 					
 					resposta = atirar(tabuleiro_2, coordenadas, integridade_embarcacoes_2)
+				
 					exibir_tabuleiro_jogo(tabuleiro_2)
 
-					se(integridade_embarcacoes_2[resposta] == 0){
-						inteiro codigo = CODIGO_EMBARCACOES[resposta]
-						escreva("O", NOME_EMBARCACOES[codigo], "FOI DERRUBADA")
-					}
+					se(resposta > -1 ){
+						se(integridade_embarcacoes_2[resposta] == 0){
+							inteiro codigo = CODIGO_EMBARCACOES[resposta]
+							escreva("O", NOME_EMBARCACOES[codigo], "FOI DERRUBADA")
+						}
+					}					
 					
 				}enquanto(resposta > -1)
 					
@@ -98,9 +104,11 @@ programa
 					resposta = atirar(tabuleiro_1, coordenadas, integridade_embarcacoes_1)
 					exibir_tabuleiro_jogo(tabuleiro_1)
 
-					se(integridade_embarcacoes_1[resposta] == 0){
-						inteiro codigo = CODIGO_EMBARCACOES[resposta]
-						escreva("O", NOME_EMBARCACOES[codigo], "FOI DERRUBADA")
+					se(resposta > -1){
+						se(integridade_embarcacoes_1[resposta] == 0){
+							inteiro codigo = CODIGO_EMBARCACOES[resposta]
+							escreva("O", NOME_EMBARCACOES[codigo], "FOI DERRUBADA")
+						}
 					}
 					
 				}enquanto(resposta > -1)
@@ -186,18 +194,19 @@ programa
 		inteiro tabuleiro[][], inteiro coordenadas[],  
 		inteiro tamanho_embarcacao, inteiro direcoes[]	
 	){
-		se(tabuleiro[coordenadas[0]][coordenadas[1]] > -1){
+		se(tabuleiro[coordenadas[0]][coordenadas[1]] == -1){
 			inteiro disponivel
+			inteiro x,y
 			//Verifica a posiﾃｧﾃ｣o acima
 			se (coordenadas[0] - (tamanho_embarcacao-1) >=0 ){
 				disponivel=0
-				inteiro x = coordenadas[0]
-				inteiro y = coordenadas[1]
+				x = coordenadas[0]
+				y = coordenadas[1]
 				para(inteiro i=0; i<tamanho_embarcacao; i++){
-					se(tabuleiro[coordenadas[0]][coordenadas[1]] == -1){
+					se(tabuleiro[x][y] == -1){
 						disponivel = 1
 					}
-					coordenadas[0]-=1
+					x-=1
 				}
 				se(disponivel == 1){
 					direcoes[0] = 1
@@ -207,11 +216,13 @@ programa
 			//Verifica a posiﾃｧﾃｵes abaixo
 			se (coordenadas[0] + (tamanho_embarcacao-1) <= NUM_LINHAS-1 ){
 				disponivel=0
-				para(inteiro i=0; i<tamanho_embarcacao-1; i++){
-					se(tabuleiro[coordenadas[0]][coordenadas[1]] > -1){
+				x = coordenadas[0]
+				y = coordenadas[1]
+				para(inteiro i=0; i<tamanho_embarcacao; i++){
+					se(tabuleiro[x][y] == -1){
 						disponivel = 1
 					}
-					coordenadas[0]-=1
+					x+=1
 				}
 				se(disponivel == 1){
 					direcoes[1] = 1
@@ -221,11 +232,13 @@ programa
 			//Verifica a posiﾃｧﾃ｣o esquerda
 			se (coordenadas[1] - (tamanho_embarcacao-1) >=0 ){
 				disponivel=0
-				para(inteiro i=0; i<tamanho_embarcacao-1; i++){
-					se(tabuleiro[coordenadas[0]][coordenadas[1]] > -1){
+				x = coordenadas[0]
+				y = coordenadas[1]
+				para(inteiro i=0; i<tamanho_embarcacao; i++){
+					se(tabuleiro[x][y] == -1){
 						disponivel = 1
 					}
-					coordenadas[0]-=1
+					y-=1
 				}
 				se(disponivel == 1){
 					direcoes[2] = 1
@@ -235,11 +248,13 @@ programa
 			//Verifica a posi�ｾ�ｽｧ�ｾ�ｽ｣o direita
 			se (coordenadas[1] + (tamanho_embarcacao-1) <= NUM_COLUNAS-1 ){
 				disponivel=0
+				x = coordenadas[0]
+				y = coordenadas[1]
 				para(inteiro i=0; i<tamanho_embarcacao-1; i++){
-					se(tabuleiro[coordenadas[0]][coordenadas[1]] > -1){
+					se(tabuleiro[x][y] == -1){
 						disponivel = 1
 					}
-					coordenadas[0]-=1
+					y+=1
 				}
 				se(disponivel == 1){
 					direcoes[3] = 1
@@ -266,58 +281,67 @@ programa
 
 			
 			verificar_orientacao_aleatorio(tabuleiro, coordenadas, TAMANHO_EMBARCACOES[embarcacao], direcoes)
-			
-			inteiro orientacao
-			faca{
-				orientacao = u.sorteia(0, 3)
-			}enquanto(direcoes[orientacao]!=1)
 
 
-			se (orientacao == 0){
-				para(inteiro j=0; j < TAMANHO_EMBARCACOES[embarcacao]; j++){
-					tabuleiro[coordenadas[0]][coordenadas[1]] = contador_codigos_embarcacoes[embarcacao]
-					coordenadas[0] -=1
-				}
-				
-				se(embarcacao != 0) {
-					contador_codigos_embarcacoes[embarcacao] +=1
-				}
+			inteiro disponivel=0
+			para(inteiro j=0; j<4; j++){
+				disponivel += direcoes[j]
 			}
-			se (orientacao == 1){
-				para(inteiro j=0; j < TAMANHO_EMBARCACOES[embarcacao]; j++){
-					tabuleiro[coordenadas[0]][coordenadas[1]] = contador_codigos_embarcacoes[embarcacao]
-					coordenadas[0] +=1
+
+			se(disponivel>0){
+				inteiro orientacao
+				faca{
+					orientacao = u.sorteia(0, 3)
+				}enquanto(direcoes[orientacao]!=1)
+	
+	
+				se (orientacao == 0){
+					para(inteiro j=0; j < TAMANHO_EMBARCACOES[embarcacao]; j++){
+						tabuleiro[coordenadas[0]][coordenadas[1]] = contador_codigos_embarcacoes[embarcacao]
+						coordenadas[0] -=1
+					}
+					
+					se(embarcacao != 0) {
+						contador_codigos_embarcacoes[embarcacao] +=1
+					}
 				}
-				
-				se(embarcacao != 0) {
-					contador_codigos_embarcacoes[embarcacao] +=1
+				se (orientacao == 1){
+					para(inteiro j=0; j < TAMANHO_EMBARCACOES[embarcacao]; j++){
+						tabuleiro[coordenadas[0]][coordenadas[1]] = contador_codigos_embarcacoes[embarcacao]
+						coordenadas[0] +=1
+					}
+					
+					se(embarcacao != 0) {
+						contador_codigos_embarcacoes[embarcacao] +=1
+					}
+					
 				}
-				
-			}
-			se (orientacao == 2){
-				para(inteiro j=0; j < TAMANHO_EMBARCACOES[embarcacao]; j++){
-					tabuleiro[coordenadas[0]][coordenadas[1]] = contador_codigos_embarcacoes[embarcacao]
-					coordenadas[1] -=1
+				se (orientacao == 2){
+					para(inteiro j=0; j < TAMANHO_EMBARCACOES[embarcacao]; j++){
+						tabuleiro[coordenadas[0]][coordenadas[1]] = contador_codigos_embarcacoes[embarcacao]
+						coordenadas[1] -=1
+					}
+					
+					se(embarcacao != 0) {
+						contador_codigos_embarcacoes[embarcacao] +=1
+					}
 				}
-				
-				se(embarcacao != 0) {
-					contador_codigos_embarcacoes[embarcacao] +=1
+				se (orientacao == 3){
+					para(inteiro j=0; j < TAMANHO_EMBARCACOES[embarcacao]; j++){
+						tabuleiro[coordenadas[0]][coordenadas[1]] = contador_codigos_embarcacoes[embarcacao]
+						coordenadas[1] +=1
+					}
+					
+					se(embarcacao != 0) {
+						contador_codigos_embarcacoes[embarcacao] +=1
+					}
 				}
-			}
-			se (orientacao == 3){
-				para(inteiro j=0; j < TAMANHO_EMBARCACOES[embarcacao]; j++){
-					tabuleiro[coordenadas[0]][coordenadas[1]] = contador_codigos_embarcacoes[embarcacao]
-					coordenadas[1] +=1
-				}
-				
-				se(embarcacao != 0) {
-					contador_codigos_embarcacoes[embarcacao] +=1
-				}
+				i++
 			}
 			
-		}
+		}	
 		exibir_tabuleiro(tabuleiro)
-		i++
+		
 	}
 	
 	funcao adicionar_embarcacoes_manualmente(inteiro tabuleiro[][])
@@ -450,7 +474,8 @@ programa
 
 	funcao exibir_tabuleiro_jogo(inteiro tabuleiro[][]){
 		cadeia letras[10] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"}
-		
+
+		 
 		para(inteiro i = 0; i < NUM_LINHAS; i++){
 			para(inteiro j = 0; j < NUM_COLUNAS; j++){
 				se(i == 0){
@@ -548,8 +573,7 @@ programa
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 5328; 
- * @DOBRAMENTO-CODIGO = [123, 133, 161, 254, 422, 434, 450, 486, 538];
+ * @POSICAO-CURSOR = 12584; 
  * @PONTOS-DE-PARADA = ;
  * @SIMBOLOS-INSPECIONADOS = ;
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
