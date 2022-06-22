@@ -39,10 +39,11 @@ programa
 		inicializar_tabuleiro(tabuleiro_2)
 
 		escreva("TABULEIRO JOGADOR 1\n")
-		adicionar_embarcacoes_aleatorio(tabuleiro_1)
+		//adicionar_embarcacoes_aleatorio(tabuleiro_1)
+		adicionar_embarcacoes_manualmente(tabuleiro_1)
 		escreva("TABULEIRO JOGADOR 2\n")
-		adicionar_embarcacoes_aleatorio(tabuleiro_2)
-
+		//adicionar_embarcacoes_aleatorio(tabuleiro_2)
+		adicionar_embarcacoes_manualmente(tabuleiro_2)
 		
 
 		// assume o valor 1 ou 2
@@ -189,17 +190,17 @@ programa
 
 	}
 	
-	funcao inteiro verificar_posicao(inteiro tabuleiro[][], inteiro x, inteiro y){
+	funcao logico verificar_posicao(inteiro tabuleiro[][], inteiro x, inteiro y){
 		se(nao(x >= 0 e x <= NUM_LINHAS-1)){
-			retorne 0 
+			retorne falso 
 		}
 		se(nao(y >= 0 e y <= NUM_COLUNAS-1)){
-			retorne 0
+			retorne falso
 		}
 
-		inteiro resposta=0
+		logico resposta=falso
 		se (tabuleiro[x][y] == -1){
-			resposta = 1 
+			resposta = verdadeiro
 		}
 
 		retorne resposta
@@ -217,13 +218,9 @@ programa
 			y = coordenadas[1]
 
 			i = 0
-			enquanto(i < tamanho_embarcacao e verificar_posicao(tabuleiro, x, y) == 1){
+			enquanto(i < tamanho_embarcacao e verificar_posicao(tabuleiro, x, y)){
 				i += 1
 				x -= 1
-
-				escreva(i, x, verificar_posicao(tabuleiro, x, y), "\n")
-
-				escreva("loop\n")
 			}
 
 			se(i > tamanho_embarcacao){
@@ -232,12 +229,12 @@ programa
 		}
 
 		//Verifica a posições abaixo
-		se (coordenadas[0] + (tamanho_embarcacao-1) >= NUM_LINHAS-1 ){
+		se (coordenadas[0] + (tamanho_embarcacao-1) <= NUM_LINHAS-1 ){
 			x = coordenadas[0]
 			y = coordenadas[1]
 
 			i = 0
-			enquanto(i < tamanho_embarcacao e verificar_posicao(tabuleiro, x, y) == 1){
+			enquanto(i < tamanho_embarcacao e verificar_posicao(tabuleiro, x, y)){
 				i += 1
 				x += 1
 			}
@@ -253,7 +250,7 @@ programa
 			y = coordenadas[1]
 
 			i = 0
-			enquanto(i < tamanho_embarcacao e verificar_posicao(tabuleiro, x, y) == 1){
+			enquanto(i < tamanho_embarcacao e verificar_posicao(tabuleiro, x, y)){
 				i += 1
 				y -= 1
 			}
@@ -264,12 +261,12 @@ programa
 		}
 
 		//Verifica a posição direita
-		se (coordenadas[0] + (tamanho_embarcacao-1) >= NUM_COLUNAS-1 ){
+		se (coordenadas[0] + (tamanho_embarcacao-1) <= NUM_COLUNAS-1 ){
 			x = coordenadas[0]
 			y = coordenadas[1]
 
 			i = 0
-			enquanto(i <= tamanho_embarcacao-1 e verificar_posicao(tabuleiro, x, y) == 1){
+			enquanto(i <= tamanho_embarcacao-1 e verificar_posicao(tabuleiro, x, y)){
 				i += 1
 				y += 1
 			}
@@ -365,11 +362,13 @@ programa
 		inteiro coordenadas[2]
 		inteiro escolha_orientacao
 		inteiro contador_codigos_embarcacoes[] = {0, 1, 3, 6}
-	
+		
+		exibir_tabuleiro(tabuleiro)
+		
 		enquanto(i != 0){
 			
-			escreva("ESCOLHA O TIPO DE EMBARCAﾃ�ﾃ髭S PARA ADICIONAR NA BATALHA:\n")
-			escreva("0 - PORTA-AVIﾃ髭S(4 quadrados)\n") 
+			escreva("ESCOLHA O TIPO DE EMBARCACOES PARA ADICIONAR NA BATALHA:\n")
+			escreva("0 - PORTA-AVIOESS(4 quadrados)\n") 
 			escreva("1 - NAVIOS-TANQUE(3 quadrados)\n") 
 			escreva("2 - CONTRATORPEDEIROS(2 quadrados)\n") 
 			escreva("3 - SUBMARINOS(1 quadrado)\n")	
@@ -383,11 +382,11 @@ programa
 				
 
 				
-				escreva("DIGITE A POSIﾃ�ﾃグ:\n")
+				escreva("DIGITE A POSICAO:\n")
 				leia(posicao_embarcacao)
 				extrair_coordenadas(coordenadas, posicao_embarcacao)
 				
-				escreva("ESCOLHA A ORIENTAﾃ�ﾃグ: \n")
+				escreva("ESCOLHA A ORIENTACAO: \n")
 				
 				verificar_orientacao(coordenadas, TAMANHO_EMBARCACOES[escolha_embarcacao], direcoes)
 				
@@ -586,8 +585,8 @@ programa
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 5643; 
- * @DOBRAMENTO-CODIGO = [28, 130, 140, 168, 282, 359, 459, 471, 487, 523, 576];
+ * @POSICAO-CURSOR = 9190; 
+ * @DOBRAMENTO-CODIGO = [131, 141, 169, 192, 211, 279, 458, 470, 486, 522, 575];
  * @PONTOS-DE-PARADA = ;
  * @SIMBOLOS-INSPECIONADOS = ;
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
