@@ -70,6 +70,8 @@ programa
 					extrair_coordenadas(coordenadas, posicao)
 					
 					resposta = atirar(tabuleiro_2, coordenadas, integridade_embarcacoes_2)
+			
+
 					exibir_tabuleiro_jogo(tabuleiro_2)
 						
 					se(resposta > -1){
@@ -100,6 +102,7 @@ programa
 					
 					resposta = atirar(tabuleiro_1, coordenadas, integridade_embarcacoes_1)
 					exibir_tabuleiro_jogo(tabuleiro_1)
+
 					se(resposta > -1){
 						se(integridade_embarcacoes_1[resposta] == 0){
 							inteiro codigo = CODIGO_EMBARCACOES[resposta]
@@ -186,109 +189,93 @@ programa
 
 	}
 	
+	funcao inteiro verificar_posicao(inteiro tabuleiro[][], inteiro x, inteiro y){
+		se(nao(x >= 0 e x <= NUM_LINHAS-1)){
+			retorne 0 
+		}
+		se(nao(y >= 0 e y <= NUM_COLUNAS-1)){
+			retorne 0
+		}
+
+		inteiro resposta=0
+		se (tabuleiro[x][y] == -1){
+			resposta = 1 
+		}
+
+		retorne resposta
+	}
+	
 	funcao verificar_orientacao_aleatorio(
 		inteiro tabuleiro[][], inteiro coordenadas[],  
 		inteiro tamanho_embarcacao, inteiro direcoes[]	
 	){
-		se(tabuleiro[coordenadas[0]][coordenadas[1]] == -1){
-			inteiro disponivel
-			inteiro x,y,i
-			//Verifica a posiﾃｧﾃ｣o acima
-			se (coordenadas[0] - (tamanho_embarcacao-1) >=0 ){
-				disponivel=0
-				x = coordenadas[0]
-				y = coordenadas[1]
+		inteiro x,y,i
+		
+		//Verifica a posição acima
+		se (coordenadas[0] - (tamanho_embarcacao-1) >=0 ){
+			x = coordenadas[0]
+			y = coordenadas[1]
 
-				i=0
-				faca{
-					se(tabuleiro[x][y]==-1){
-						disponivel=1
-					}
-					senao{
-						disponivel = 0
-					}
-					i+=1
-					x-=1	
-				}enquanto(x>=0 e tabuleiro[x][y]==-1 e i<tamanho_embarcacao)
-				
-				se(disponivel == 1){
-					direcoes[0] = 1
-				}
+			i = 0
+			enquanto(i < tamanho_embarcacao e verificar_posicao(tabuleiro, x, y) == 1){
+				i += 1
+				x -= 1
+
+				escreva(i, x, verificar_posicao(tabuleiro, x, y), "\n")
+
+				escreva("loop\n")
 			}
-	
-			//Verifica a posiﾃｧﾃｵes abaixo
-			se (coordenadas[0] + (tamanho_embarcacao-1) <= NUM_LINHAS-1 ){
-				disponivel=0
-				x = coordenadas[0]
-				y = coordenadas[1]
-				
-				i=0
-				faca{
-					se(tabuleiro[x][y]==-1){
-						disponivel=1
-					}
-					senao{
-						disponivel = 0
-					}
-					i+=1
-					x+=1
-					
-				}enquanto((x <= NUM_LINHAS-1) e tabuleiro[x][y]==-1 e i<tamanho_embarcacao)
-				
-				se(disponivel == 1){
-					direcoes[1] = 1
-				}
+
+			se(i > tamanho_embarcacao){
+				direcoes[0] = 1
 			}
-	
-			//Verifica a posiﾃｧﾃ｣o esquerda
-			se (coordenadas[1] - (tamanho_embarcacao-1) >=0 ){
-				disponivel=0
-				x = coordenadas[0]
-				y = coordenadas[1]
-				
-				i=0
-				faca{
-					se(tabuleiro[x][y]==-1){
-						disponivel=1
-					}
-					senao{
-						disponivel = 0
-					}
-					i+=1
-					y-=1
-					
-				}enquanto(y >= 0 e tabuleiro[x][y]==-1 e i<tamanho_embarcacao)
-				
-				se(disponivel == 1){
-					direcoes[2] = 1
-				}
+		}
+
+		//Verifica a posições abaixo
+		se (coordenadas[0] + (tamanho_embarcacao-1) >= NUM_LINHAS-1 ){
+			x = coordenadas[0]
+			y = coordenadas[1]
+
+			i = 0
+			enquanto(i < tamanho_embarcacao e verificar_posicao(tabuleiro, x, y) == 1){
+				i += 1
+				x += 1
 			}
-	
-			//Verifica a posi�ｾ�ｽｧ�ｾ�ｽ｣o direita
-			se (coordenadas[1] + (tamanho_embarcacao-1) <= NUM_COLUNAS-1 ){
-				disponivel=0
-				x = coordenadas[0]
-				y = coordenadas[1]
-				
-				i=0
-				faca{
-					se(tabuleiro[x][y]==-1){
-						disponivel=1
-					}
-					senao{
-						disponivel = 0
-					}
-					i+=1
-					y+=1
-				}enquanto((x <= NUM_COLUNAS-1) e i<tamanho_embarcacao e tabuleiro[x][y]==-1)
-				se(disponivel == 1){
-					direcoes[3] = 1
-					
-				}
+
+			se(i > tamanho_embarcacao){
+				direcoes[1] = 1
 			}
-		}senao{
-			para(inteiro i=0; i<4; i++){
-				direcoes[i] = 0
+		}
+
+		//Verifica a posição esquerda
+		se (coordenadas[0] - (tamanho_embarcacao-1) >=0 ){
+			x = coordenadas[0]
+			y = coordenadas[1]
+
+			i = 0
+			enquanto(i < tamanho_embarcacao e verificar_posicao(tabuleiro, x, y) == 1){
+				i += 1
+				y -= 1
+			}
+
+			se(i > tamanho_embarcacao){
+				direcoes[2] = 1
+			}
+		}
+
+		//Verifica a posição direita
+		se (coordenadas[0] + (tamanho_embarcacao-1) >= NUM_COLUNAS-1 ){
+			x = coordenadas[0]
+			y = coordenadas[1]
+
+			i = 0
+			enquanto(i <= tamanho_embarcacao-1 e verificar_posicao(tabuleiro, x, y) == 1){
+				i += 1
+				y += 1
+			}
+
+			se(i >= tamanho_embarcacao){
+				direcoes[3] = 1
 			}
 		}
 	}
@@ -500,7 +487,6 @@ programa
 
 	funcao exibir_tabuleiro_jogo(inteiro tabuleiro[][]){
 		cadeia letras[10] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"}
-		
 		para(inteiro i = 0; i < NUM_LINHAS + 1; i++){
 			para(inteiro j = 0; j < NUM_COLUNAS + 1; j++){
 				se(i == 0){
@@ -600,8 +586,8 @@ programa
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 6930; 
- * @DOBRAMENTO-CODIGO = [137, 165, 372, 472, 484, 500, 537, 590];
+ * @POSICAO-CURSOR = 5643; 
+ * @DOBRAMENTO-CODIGO = [28, 130, 140, 168, 282, 359, 459, 471, 487, 523, 576];
  * @PONTOS-DE-PARADA = ;
  * @SIMBOLOS-INSPECIONADOS = ;
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
